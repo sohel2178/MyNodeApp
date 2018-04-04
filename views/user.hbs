@@ -1,0 +1,133 @@
+<div class="root-container">
+    <div class="left-container">
+     <h2 class="text-success">User List</h2>
+    </div>
+
+    <div class="right-container">
+       <!-- Button to Open the Modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        Add User
+        </button>
+
+        <!-- The Modal -->
+        <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add New User</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="/users" method="POST">
+                    <div class="form-group">
+                        <label for="name">Email Address:</label>
+                        <input type="text" name="name" id="name" placeholder="Name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" placeholder="Email" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Password" class="form-control">
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" id="submituser" class="btn btn-primary" >Submit</button>
+            </div>
+
+            </div>
+        </div>
+  </div>
+    </div>
+</div>
+
+
+<div id="container" class="container clearfix"></div>
+
+
+<script>
+
+    $(document).ready(()=>{
+        $("nav ul li:nth-child(4)").addClass('active');
+        $.get('/api/users',(data,status,xhr)=>{
+
+        var mainContainer =$('#container');
+        
+        for(val of data){
+            
+            var newDiv = document.createElement('div');
+            newDiv.className = 'card bg-info text-white';
+
+            var cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+
+            newDiv.appendChild(cardBody);
+            
+            var nameEl = document.createElement('h4');
+            nameEl.className = 'card-title';
+
+            var emailEl = document.createElement('p');
+            emailEl.className= 'card-text';
+
+            nameEl.innerHTML = val.name;
+            emailEl.innerHTML = val.email;
+
+            cardBody.appendChild(nameEl);
+            cardBody.appendChild(emailEl);
+
+            mainContainer.append(newDiv);
+
+            var lbr = document.createElement('br');
+            mainContainer.append(lbr);
+        }
+    });
+    });
+
+    $('#adduser').click((e)=>{
+        e.preventDefault();
+
+        alert("Click");
+    });
+
+    $('#submituser').click((e)=>{
+        e.preventDefault();
+
+        var name = $('#name').val();
+        var email = $('#email').val();
+        var password = $('#password').val();
+
+        var formData = {
+            name:name,
+            email:email,
+            password:password
+        }
+
+        console.log(formData);
+
+        $.post('/api/users', formData, function(response) {
+            console.log(response);
+             $('#myModal').modal('hide');
+             document.location.reload();
+        // on success execute this code
+        }).fail((xhr)=>{
+            $('#myModal').modal('hide');
+            
+            if(xhr.status==409){
+                alert("Email Already Exist");
+            }
+        });
+
+       
+    });
+
+</script>

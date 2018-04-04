@@ -1,0 +1,61 @@
+<h2>User Entry Form</h2>
+
+<form id="userForm">
+    <div class="form-group">
+        <label for="name">Email Address:</label>
+        <input type="text" id="name" name="name" placeholder="Name" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" placeholder="Email" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Password" class="form-control">
+    </div>
+
+    <div >
+        <label >
+            <input type="checkbox"> Remember me
+        </label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+    
+    $(document).ready(()=>{
+        $("nav ul li:nth-child(4)").addClass('active');
+    });
+
+    $('#userForm').submit((e)=>{
+        e.preventDefault();
+        console.log("Submit Click");
+
+        //var formData = new FormData($(this)); 
+        //var formData2 = $('#userForm').serialize();
+
+        var name = $('#name').val();
+        var email = $('#email').val();
+        var password = $('#password').val();
+
+        var formData = {
+            name:name,
+            email:email,
+            password:password
+        }
+
+        $.post('/users', formData, function(response) {
+            console.log(response);
+        // on success execute this code
+        });
+
+        //console.log(formData);
+
+      
+
+        //console.log(formData);
+        //console.log(formData2);
+    });
+</script>

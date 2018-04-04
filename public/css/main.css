@@ -1,0 +1,16 @@
+.root-container{
+    margin: 10px;
+}
+
+.left-container{
+    float: left;
+}
+
+.right-container{
+    float: right;
+}
+
+.clearfix {
+    overflow: hidden;
+    clear: both;
+}

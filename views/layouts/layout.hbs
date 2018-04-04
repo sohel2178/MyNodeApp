@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {{>head}}
+  <title>Express Tutorial</title>
+</head>
+<body>
+
+{{>navbar}}
+
+<div class="container">
+{{{body}}}
+</div>
+
+
+<script>
+  $('nav ul li').click(function(e) {
+    //e.preventDefault();
+        $(this).addClass('active');
+        console.log("Click");
+    });
+</script>
+
+
+
+</body>
+</html>
